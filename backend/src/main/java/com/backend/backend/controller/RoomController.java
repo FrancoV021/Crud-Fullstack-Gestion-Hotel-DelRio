@@ -77,7 +77,7 @@ public class RoomController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<Room>> updateRoom(
+    public ResponseEntity<ApiResponse<RoomDto>> updateRoom(
             @PathVariable Long id,
             @RequestParam(required = false) String roomType,
             @RequestParam(required = false) BigDecimal roomPrice,
@@ -85,11 +85,22 @@ public class RoomController {
             @RequestParam(required = false) MultipartFile photo) {
         try {
             Room updatedRoom = roomService.updateRoom(id, roomType, roomPrice, roomDescription, photo);
-            return ResponseEntity.ok(ApiResponse.success("Room updated successfully", updatedRoom));
+            RoomDto roomDto = convertToDto(updatedRoom);
+            return ResponseEntity.ok(ApiResponse.success("Room updated successfully", roomDto));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error("Error updating room: " + e.getMessage()));
         }
+    }
+
+    private RoomDto convertToDto(Room room) {
+        RoomDto dto = new RoomDto();
+        dto.setId(room.getId());
+        dto.setRoomType(room.getRoomType());
+        dto.setRoomPrice(room.getRoomPrice());
+        dto.setRoomPhotoUrl(room.getRoomPhotoUrl());
+        dto.setRoomDescription(room.getRoomDescription());
+        return dto;
     }
 
     @GetMapping("/available")
@@ -101,3 +112,4 @@ public class RoomController {
         return ResponseEntity.ok(ApiResponse.success("Available rooms retrieved", availableRooms));
     }
 }
+
