@@ -1,16 +1,53 @@
-# React + Vite
+Del Rio Stay & Resort - Frontend (React SPA)
+Esta es la interfaz de usuario para el sistema de gestión hotelera Del Rio Stay & Resort. Una Single Page Application (SPA) moderna, rápida y responsiva que ofrece una experiencia fluida tanto para huéspedes como para administradores.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🛠️ Tecnologías y Herramientas
+Core: React 19 + Vite (Optimizado para desarrollo rápido).
 
-Currently, two official plugins are available:
+Routing: React Router DOM (Manejo de rutas dinámicas y protegidas).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Estilos: Tailwind CSS (Diseño moderno y utilitario).
 
-## React Compiler
+Componentes UI: Radix UI + Lucide React (Iconografía).
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+Comunicación: Axios (Consumo de API REST).
 
-## Expanding the ESLint configuration
+Feedback: Sonner (Notificaciones tipo Toast elegantes).
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Seguridad: JWT Auth (Persistencia de sesión y decodificación de roles).
+
+🚀 Funcionalidades Clave
+🔐 Sistema de Autenticación: Registro e inicio de sesión con persistencia de token.
+
+🛡️ Control de Acceso por Roles: * USER: Búsqueda de habitaciones, visualización de detalles y gestión de reservas propias.
+
+ADMIN: Dashboard completo para crear, editar y eliminar habitaciones, además de supervisar todas las reservas del sistema.
+
+🏨 Gestión de Habitaciones: CRUD completo con soporte para subida de imágenes.
+
+📅 Sistema de Reservas: Flujo de reserva intuitivo con validación de fechas.
+
+🔍 Navegación Avanzada: Implementación de filtros, búsqueda y paginación para una mejor UX.
+
+🚦 Rutas Protegidas: Middlewares en el frontend que impiden el acceso a áreas administrativas a usuarios no autorizados.
+
+🌐 Variables de Entorno
+Para conectar el frontend con tu servidor de producción o local, crea un archivo .env en la raíz de la carpeta /frontend:
+
+VITE_API_URL=https://tu-backend-en-render.onrender.com/api
+💻 Desarrollo Local
+Instalar dependencias:
+
+npm install
+Iniciar servidor de desarrollo:
+
+npm run dev
+Construir para producción:
+
+npm run build
+El proyecto se servirá por defecto en http://localhost:5173.
+
+📦 Despliegue
+La aplicación se encuentra desplegada y configurada para CI/CD en Vercel. Cada push a la rama principal dispara automáticamente una nueva versión productiva.
+
+[!TIP] Nota de Seguridad: El token JWT se almacena de forma segura y se adjunta automáticamente a las peticiones de Axios mediante interceptores para garantizar que la sesión no se pierda al recargar la página.
