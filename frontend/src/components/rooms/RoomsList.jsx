@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
@@ -15,9 +14,7 @@ import { api } from '@/lib/api'
 
 const ROOMS_PER_PAGE = 10
 
-const fallbackRooms = [
-
-]
+const fallbackRooms = []
 
 export function RoomsList() {
   const [rooms, setRooms] = useState(fallbackRooms)
@@ -37,7 +34,6 @@ export function RoomsList() {
         const roomsData = roomsResp?.data || roomsResp || []
         const typesData = typesResp?.data || typesResp || []
 
-        if (Array.isArray(roomsData) && roomsData.length > 0) setRooms(roomsData)
         if (Array.isArray(roomsData) && roomsData.length > 0) {
           const normalizedRooms = roomsData.map(room => ({
             ...room,
@@ -47,8 +43,12 @@ export function RoomsList() {
           }))
           setRooms(normalizedRooms)
         }
-        if (Array.isArray(typesData) && typesData.length > 0) setRoomTypes(typesData)
-        else setRoomTypes([...new Set(fallbackRooms.map(r => r.roomType))])
+
+        if (Array.isArray(typesData) && typesData.length > 0) {
+          setRoomTypes(typesData)
+        } else {
+          setRoomTypes([...new Set(fallbackRooms.map(r => r.roomType))])
+        }
       } catch (error) {
         console.log('Using fallback data, API not available:', error)
         setRoomTypes([...new Set(fallbackRooms.map(r => r.roomType))])
@@ -127,6 +127,7 @@ export function RoomsList() {
             {filteredRooms.length} room{filteredRooms.length !== 1 ? 's' : ''} found
           </p>
         </div>
+
         {paginatedRooms.length === 0 ? (
           <div className="text-center py-16">
             <p className="text-muted-foreground">
@@ -148,17 +149,23 @@ export function RoomsList() {
                 <div className="flex flex-col lg:flex-row">
                   <div className="relative h-64 lg:h-auto lg:w-72 shrink-0 overflow-hidden">
                     <img
-                      src={room.photo?.startsWith('data:') ? room.photo : room.photo || '/images/rooms/room-standard.jpg'}
+                      src={
+                        room.roomPhotoUrl
+                          ? `data:image/jpeg;base64,${room.roomPhotoUrl}`
+                          : '/images/rooms/room-standard.jpg'
+                      }
                       alt={room.roomType || 'Room'}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 1024px) 100vw, 288px"
                     />
+
                     {room.isBooked && (
                       <div className="absolute top-4 right-4 bg-destructive text-destructive-foreground text-xs px-3 py-1 rounded-full">
                         Reserved
                       </div>
                     )}
                   </div>
+
                   <CardContent className="p-6 flex flex-col justify-between flex-1">
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-4">
@@ -177,11 +184,13 @@ export function RoomsList() {
                           <span className="text-sm text-muted-foreground"> /night</span>
                         </div>
                       </div>
+
                       {room.roomDescription && (
                         <p className="text-muted-foreground text-sm line-clamp-2">
                           {room.roomDescription}
                         </p>
                       )}
+
                       <div className="flex items-center gap-4 text-sm text-muted-foreground">
                         {room.capacity && (
                           <div className="flex items-center gap-1">
@@ -197,12 +206,9 @@ export function RoomsList() {
                         )}
                       </div>
                     </div>
+
                     {room.isBooked ? (
-                      <Button
-                        className="w-full mt-4"
-                        variant="outline"
-                        disabled
-                      >
+                      <Button className="w-full mt-4" variant="outline" disabled>
                         Room Reserved
                       </Button>
                     ) : (
@@ -213,13 +219,13 @@ export function RoomsList() {
                         </Link>
                       </Button>
                     )}
-
                   </CardContent>
                 </div>
               </Card>
             ))}
           </div>
         )}
+
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-2 mt-12">
             <Button
@@ -230,11 +236,12 @@ export function RoomsList() {
             >
               previous
             </Button>
+
             <div className="flex gap-1">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
                 <Button
                   key={page}
-                  variant={currentPage === page ? "default" : "outline"}
+                  variant={currentPage === page ? 'default' : 'outline'}
                   size="sm"
                   onClick={() => setCurrentPage(page)}
                   className="w-10"
@@ -243,6 +250,7 @@ export function RoomsList() {
                 </Button>
               ))}
             </div>
+
             <Button
               variant="outline"
               size="sm"

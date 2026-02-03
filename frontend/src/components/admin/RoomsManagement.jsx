@@ -286,48 +286,6 @@ export function RoomsManagement() {
                   required
                 />
               </div>
-
-              {/* <div className="space-y-2">
-                <Label htmlFor="numOfAdults">Number of Adults</Label>
-                <Input
-                  id="numOfAdults"
-                  type="number"
-                  step="0"
-                  placeholder="0"
-                  value={formData.numOfAdults}
-                  onChange={(e) =>
-                    setFormData({ ...formData, numOfAdults: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="numOfChildren">Number of Children</Label>
-                <Input
-                  id="numOfChildren"
-                  type="number"
-                  step="0"
-                  placeholder="0"
-                  value={formData.numOfChildren}
-                  onChange={(e) =>
-                    setFormData({ ...formData, numOfChildren: e.target.value })
-                  }
-                  required
-                />
-              </div> */}
-              {/* <label className="flex items-center gap-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={formData.isBooked}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      isBooked: e.target.checked,
-                    })
-                  }
-                />
-                Room is reserved
-              </label> */}
             </div>
 
             <div className="space-y-2">
