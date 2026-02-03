@@ -11,30 +11,6 @@ import { api } from '@/lib/api'
 import { Room as RoomTemplate } from '@/lib/types'
 import { BookingForm } from './BookingForm'
 
-// // Fallback room data
-// const getFallbackRoom = (id) => ({
-//     ...RoomTemplate,
-//     id: parseInt(id),
-//     roomType: id === '1' ? 'Suite Presidencial' : id === '2' ? 'Suite' : 'Deluxe',
-//     roomPrice: id === '1' ? 450 : id === '2' ? 350 : 280,
-//     isBooked: false,
-//     photo:
-//         id === '1' || id === '2'
-//             ? '/images/rooms/suite-luxury.jpg'
-//             : '/images/rooms/room-deluxe.jpg',
-//     description:
-//         'Enjoy a unique experience in our elegant room. With spectacular views, first-class amenities, and impeccable service, your stay will be unforgettable..',
-//     capacity: id === '1' ? 4 : 2,
-//     bedType: id === '1' ? 'King Size' : 'Queen Size',
-//     amenities: [
-//         'WiFi',
-//         'air-conditioning',
-//         'TV Smart',
-//         'Minibar',
-//         'private bathroom',
-//         'river view',
-//     ],
-// })
 
 const amenityIcons = {
     'WiFi': Wifi,
@@ -137,8 +113,11 @@ export function RoomDetails({ roomId }) {
                 <div className="lg:col-span-2 space-y-8">
                     <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden">
                         <img
-                            src={room.photo || '/images/rooms/room-standard.jpg'}
-                            alt={room.roomType}
+                            src={
+                                room.roomPhotoUrl
+                                    ? `data:image/jpeg;base64,${room.roomPhotoUrl}`
+                                    : '/images/rooms/room-standard.jpg'
+                            } alt={room.roomType}
                             className="w-full h-full object-cover"
                         />
                         {room.isBooked && (
@@ -214,7 +193,7 @@ export function RoomDetails({ roomId }) {
                                         This room is currently reserved.
                                     </p>
                                     <Button variant="outline" asChild className="w-full bg-transparent">
-                                      <Link to="/rooms">View more Rooms</Link>
+                                        <Link to="/rooms">View more Rooms</Link>
                                     </Button>
                                 </div>
                             ) : showBookingForm ? (
