@@ -54,8 +54,10 @@ public class BookingController {
     }
 
     @GetMapping("/user/{email}")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<ApiResponse<List<BookingDto>>> getBookingsByEmail(@PathVariable String email) {
+    @PreAuthorize("#email == authentication.name or hasRole('ADMIN')")
+    public ResponseEntity<ApiResponse<List<BookingDto>>> getBookingsByEmail(
+            @PathVariable String email) {
+
         List<BookingDto> bookings = bookingService.getBookingsByEmail(email);
         return ResponseEntity.ok(ApiResponse.success("User bookings retrieved", bookings));
     }

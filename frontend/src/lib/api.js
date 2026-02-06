@@ -142,7 +142,7 @@ class ApiClient {
   }
 
   getBookingByConfirmationCode(code) {
-    return this.request(`/bookings/confirmation/${code}`)
+    return this.request(`/bookings/confirmation/${code.trim()}`)
   }
 
   getAllBookings() {
