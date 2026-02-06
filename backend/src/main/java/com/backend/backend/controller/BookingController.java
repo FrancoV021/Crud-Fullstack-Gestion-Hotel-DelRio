@@ -53,21 +53,12 @@ public class BookingController {
         return ResponseEntity.ok(ApiResponse.success("All bookings retrieved", bookings));
     }
 
-    //nuevo
     @GetMapping("/user/{email}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<ApiResponse<List<BookingDto>>> getBookingsByEmail(@PathVariable String email) {
         List<BookingDto> bookings = bookingService.getBookingsByEmail(email);
         return ResponseEntity.ok(ApiResponse.success("User bookings retrieved", bookings));
     }
-    // ---
-
-//    @GetMapping("/user/{userId}")
-//    @PreAuthorize("isAuthenticated()")
-//    public ResponseEntity<ApiResponse<List<BookingDto>>> getBookingsByUserId(@PathVariable Long userId) {
-//        List<BookingDto> bookings = bookingService.getBookingsByUserId(userId);
-//        return ResponseEntity.ok(ApiResponse.success("User bookings retrieved", bookings));
-//    }
 
     @DeleteMapping("/{bookingId}")
     @PreAuthorize("isAuthenticated()")
