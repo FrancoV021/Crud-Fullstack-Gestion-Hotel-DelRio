@@ -47,14 +47,14 @@ public class BookingController {
     }
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<List<BookingDto>>> getAllBookings() {
         List<BookingDto> bookings = bookingService.getAllBookings();
         return ResponseEntity.ok(ApiResponse.success("All bookings retrieved", bookings));
     }
 
     @GetMapping("/user/{email}")
-    @PreAuthorize("#email == authentication.name or hasRole('ADMIN')")
+    @PreAuthorize("#email == authentication.name or hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<ApiResponse<List<BookingDto>>> getBookingsByEmail(
             @PathVariable String email) {
 

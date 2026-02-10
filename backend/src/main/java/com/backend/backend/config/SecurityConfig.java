@@ -53,7 +53,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/rooms/all", "/api/rooms/{id}", "/api/rooms/types").permitAll()
                         .requestMatchers("/api/rooms/available").permitAll()
                         .requestMatchers("/api/bookings/confirmation/{confirmationCode}").permitAll()
-                        .requestMatchers("/api/rooms/add", "/api/rooms/update/**", "/api/rooms/delete/**").hasRole("ADMIN")
+                        .requestMatchers("/api/rooms/add", "/api/rooms/update/**", "/api/rooms/delete/**")
+                        .hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
