@@ -19,10 +19,19 @@ class ApiClient {
   }
 
   async request(endpoint, options = {}, includeAuth = false) {
+    const token = localStorage.getItem("token")
+
+    if (includeAuth && !token) {
+      throw new Error("No authentication token found")
+    }
+
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
       headers: {
-        ...this.getHeaders(includeAuth),
+        "Content-Type": "application/json",
+        ...(includeAuth && token
+          ? { Authorization: `Bearer ${token}` }
+          : {}),
         ...options.headers,
       },
     })
@@ -32,12 +41,9 @@ class ApiClient {
       throw new Error(error.message || `Error ${response.status}`)
     }
 
-    const data = await response.json()
-    
-    // If response is wrapped in ApiResponse structure, return it as-is
-    // The caller can access response.data
-    return data
+    return response.json()
   }
+
 
   // ================= AUTH =================
 
